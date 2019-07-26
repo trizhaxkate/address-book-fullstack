@@ -15,9 +15,7 @@ The set of technologies you'll be required to use are as follows
 This is a comprehensive test of all of you skills as a software developer,
 you'll be expected to implement each specified feature to the best of your
 abilities. Along with working features, attention will be paid to how you
-organize your application code, and because each implementation may differ
-slightly, you'll be expected to provide some documentation about how to use your
-Address Book application.
+organize your application code.
 
 ## Design Constraints
 
@@ -61,7 +59,7 @@ Address Book application.
 
 > **Bonus Feature**: See if you can implement auto-login if a user still has a
 > valid token from their last login. This would require storage of the token in
-> the browser. Research browser local storage if you're interested.
+> the browser. Research browser local storage if you're implementing this feature.
 
 ### Address Book Page:
 
@@ -111,3 +109,4 @@ query them. This application will most likely require the following entities.
   - state_or_province
   - postal_code
   - country
+- Group - *only if implementing the bonus feature
