@@ -17,6 +17,13 @@ you'll be expected to implement each specified feature to the best of your
 abilities. Along with working features, attention will be paid to how you
 organize your application code.
 
+## Getting Started
+
+`Fork` and `clone` this project.
+
+There is no starter code for this project. Use the appropriate tools to
+initialize a project and track any dependencies required to run your project.
+
 ## Design Constraints
 
 1. You should create a responsive UI for three device categories **mobile**,
@@ -59,7 +66,8 @@ organize your application code.
 
 > **Bonus Feature**: See if you can implement auto-login if a user still has a
 > valid token from their last login. This would require storage of the token in
-> the browser. Research browser local storage if you're implementing this feature.
+> the browser. Research browser local storage if you're implementing this
+> feature.
 
 ### Address Book Page:
 
@@ -80,7 +88,7 @@ organize your application code.
     - Should display all editable information about contact.
     - Have a way to edit and then save selected contact information.
   - **A way to CREATE new contacts and save them to the user's address book.**
-      - Form should have appropriate validation and error messages.
+    - Form should have appropriate validation and error messages.
   - **A way to DELETE contacts from the address book.**
     - A confirmation should be used before deleting a contact.
   - **A way for a user to logout of the application**
@@ -109,4 +117,9 @@ query them. This application will most likely require the following entities.
   - state_or_province
   - postal_code
   - country
-- Group - *only if implementing the bonus feature
+- Group - \*only if implementing the bonus feature
+
+# Finished
+
+Submit a link to your fork of this repository to the Google Classroom assignment
+related to this project.
