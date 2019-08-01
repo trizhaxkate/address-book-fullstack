@@ -140,11 +140,11 @@ export default function SignUpForm(props) {
             </Grid>
           </Grid>
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={props.handleSignUp}
           >
             Sign Up
           </Button>

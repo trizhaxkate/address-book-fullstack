@@ -20,16 +20,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import GroupIcon from '@material-ui/icons/Group';
-import DeleteIcon from '@material-ui/icons/Delete';
 import Avatar from '@material-ui/core/Avatar';
-import SearchIcon from '@material-ui/icons/Search';
 import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import LogoutIcon from '@material-ui/icons/ExitToApp';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -52,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
   table: {
     // minWidth: 650,
-    minHeight: 500, 
+    // minHeight: 500, 
   },
   blue: {
     background: 'rgb(9,9,121)',
@@ -124,7 +117,7 @@ export default function AddressBook() {
             ADDRESS BOOK
           </Typography>
           <IconButton className={classes.button}>
-              <LogoutIcon style={{float: 'right', color: 'white'}} fontSize="large"/>
+              <Icon style={{float: 'right', color: 'white'}} fontSize="large">exit_to_app</Icon>
           </IconButton>
         </Toolbar>
     </AppBar>
@@ -139,13 +132,13 @@ export default function AddressBook() {
                 <ListItem button>
                 <ListItemAvatar>
                     <Avatar style={{background: '#833ab4'}}>
-                      <GroupIcon />
+                      <Icon>group_add</Icon>
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText primary="Sample Group 1" />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
+                      <Icon>delete</Icon>
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -153,13 +146,13 @@ export default function AddressBook() {
                 <ListItem button>
                   <ListItemAvatar>
                     <Avatar style={{background: '#833ab4'}}>
-                      <GroupIcon />
+                      <Icon>group_add</Icon>
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText primary="Sample Group 2" />
                   <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon />
+                      <Icon>delete</Icon>
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
@@ -171,7 +164,7 @@ export default function AddressBook() {
         <Paper className={classes.root}>
           <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <span style={{float: 'left', marginLeft: '15px', marginTop: '15px', marginBottom: '10px'}}>
-              <SearchIcon style={{marginTop: '21px', marginRight: '7px', color: 'gray'}} />
+              <Icon style={{marginTop: '21px', marginRight: '7px', color: 'gray'}}>search</Icon>
               <TextField
                 id="standard-search"
                 label="Search field"
@@ -180,7 +173,7 @@ export default function AddressBook() {
             </span> 
             <span style={{float: 'left', marginRight: '25px', marginTop: '20px', marginBottom: '10px'}}>
                 <Fab size="medium" style={{backgroundColor: '#fcb045'}} aria-label="add">
-                    <AddIcon style={{float: 'right', color: 'white'}} onClick={handleClickOpen}/>
+                    <Icon style={{float: 'right', color: 'white'}} onClick={handleClickOpen}>add</Icon>
                 </Fab>
 
                 <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" className={classes.dialog}>
@@ -311,13 +304,13 @@ export default function AddressBook() {
                   <TableCell align="right">{row.fat}</TableCell>
                   <TableCell align="right">
                       <Fab size="small" style={{backgroundColor: '#833ab4', color: 'white', marginRight: '10px'}} aria-label="add" className={classes.margin}>
-                        <EditIcon />
+                        <Icon>edit</Icon>
                       </Fab>
                       <Fab size="small" style={{backgroundColor: '#fd1d1d', color: 'white', marginRight: '10px'}} aria-label="add" className={classes.margin}>
-                        <DeleteIcon />
+                        <Icon>delete</Icon>
                       </Fab>
                       <Fab size="small" style={{backgroundColor: '#fcb045', color: 'white'}} aria-label="add" className={classes.margin}>
-                        <GroupAddIcon />
+                      <Icon>group_add</Icon>
                       </Fab>
                   </TableCell>
                 </TableRow>

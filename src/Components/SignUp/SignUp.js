@@ -12,8 +12,8 @@ class SignUp extends React.Component {
       validateuser: true,
       validateemail: true,
       validatepass: true,
-      firstName : '',
-      lastName: '',
+      fName : '',
+      lName: '',
       email: '',
       password: '',
       username: ''
@@ -22,28 +22,28 @@ class SignUp extends React.Component {
 
   handleBlurFname = () => {
     this.setState({
-        validatefirst: !!this.state.firstName
+        validatefirst: !!this.state.fName
     })
   }
 
   handleFnameInput = (e) => {
     var inpFirst = e.target.value
     this.setState({
-        firstName: inpFirst,
+        fName: inpFirst,
         validatefirst: true
     })
   }
 
   handleBlurLname = () => {
     this.setState({
-        validatelast: !!this.state.lastName
+        validatelast: !!this.state.lName
     })
   }
 
   handleLnameInput = (e) => { 
     var inpLast = e.target.value
     this.setState({
-        lastName: inpLast,
+        lName: inpLast,
         validatelast: true
     })
   }
@@ -98,10 +98,9 @@ class SignUp extends React.Component {
       data: this.state
     })
     .then(res => {
-      localStorage.setItem('token', res.data.token)
       window.location.href = '#/addressbook';
-    })
-
+    })  
+    console.log('dsadasd')
 
   }
 
