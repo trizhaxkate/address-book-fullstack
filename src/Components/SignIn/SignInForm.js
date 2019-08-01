@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Routes from '../Routes';
 import {Link} from 'react-router-dom';
+import Paper from '@material-ui/core/Paper';
 
 
 const useStyles = makeStyles(theme => ({
@@ -18,10 +19,11 @@ const useStyles = makeStyles(theme => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(13),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    padding: '15px'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -40,9 +42,10 @@ export default function SignInFrom(props) {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" style={{display: 'flex', alignItems: 'center'}}>
+      <Paper className={classes.paper}>
       <CssBaseline />
-      <div className={classes.paper}>
+      <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
         <Avatar className={classes.avatar}>
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -100,7 +103,8 @@ export default function SignInFrom(props) {
             </Grid>
           </Grid>
         </form>
-      </div>   
+      </div>
+      </Paper>   
     </Container>
   );
 }
