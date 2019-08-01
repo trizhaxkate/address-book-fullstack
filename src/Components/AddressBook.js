@@ -30,6 +30,13 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,10 +58,22 @@ const useStyles = makeStyles(theme => ({
     background: 'rgb(9,9,121)',
     background: 'linear-gradient(90deg, rgba(9,9,121,1) 35%, rgba(115,168,179,1) 100%)'
   },
-  appBar: {
-    
-  }
+  dialog: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3),
+    },
+  },
 
+  dialogTitle: {
+    background: 'rgb(131,58,180)',
+    background: 'linear-gradient(90deg, rgba(131,58,180,0.68531162464986) 0%, rgba(253,29,29,0.6376925770308124) 50%, rgba(252,176,69,0.8421743697478992) 100%)',
+    color: 'white',
+  }
 }));
 
 function createData(name, calories, fat, carbs) {
@@ -74,11 +93,22 @@ function ListItemLink(props) {
 }
 
 
+
+
 export default function AddressBook() {
- 
+  
+  function handleClickOpen() {
+    setOpen(true);
+  }
+  
+  function handleClose() {
+    setOpen(false);
+  }
+  
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
   return (
     <React.Fragment>
@@ -150,8 +180,116 @@ export default function AddressBook() {
             </span> 
             <span style={{float: 'left', marginRight: '25px', marginTop: '20px', marginBottom: '10px'}}>
                 <Fab size="medium" style={{backgroundColor: '#fcb045'}} aria-label="add">
-                    <AddIcon style={{float: 'right', color: 'white'}}/>
+                    <AddIcon style={{float: 'right', color: 'white'}} onClick={handleClickOpen}/>
                 </Fab>
+
+                <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" className={classes.dialog}>
+                  <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>ADD NEW CONTACT</DialogTitle>
+                <DialogContent>
+                  {/* <DialogContentText>
+                    
+                  </DialogContentText> */}
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        required
+                        id="firstName"
+                        name="firstName"
+                        label="First name"
+                        fullWidth
+                        autoComplete="fname"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        required
+                        id="lastName"
+                        name="lastName"
+                        label="Last name"
+                        fullWidth
+                        autoComplete="lname"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        id="email"
+                        name="email"
+                        label="Email Address"
+                        fullWidth
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        required
+                        id="mobile"
+                        name="mobile"
+                        label="Mobile Phone"
+                        fullWidth
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        required
+                        id="homephone"
+                        name="homephone"
+                        label="Home Phone"
+                        fullWidth
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={4}>
+                      <TextField
+                        required
+                        id="work_phone"
+                        name="work_phone"
+                        label="Work Phone"
+                        fullWidth
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        required
+                        id="city"
+                        name="city"
+                        label="City"
+                        fullWidth
+                        autoComplete="billing address-level2"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField id="state" name="state" label="State/Province/Region" fullWidth />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        required
+                        id="zip"
+                        name="zip"
+                        label="Zip / Postal code"
+                        fullWidth
+                        autoComplete="billing postal-code"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        required
+                        id="country"
+                        name="country"
+                        label="Country"
+                        fullWidth
+                        autoComplete="billing country"
+                      />
+                    </Grid>
+                  </Grid>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose} color="primary">
+                    CANCEL
+                  </Button>
+                  <Button onClick={handleClose} color="primary">
+                    ADD
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </span>
           </div>
           <Table className={classes.table}>

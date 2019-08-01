@@ -1,5 +1,6 @@
 import React from 'react'
 import SignUpForm from './SignUpForm'
+import axios from 'axios'
 
 class SignUp extends React.Component {
   constructor(props){
@@ -90,6 +91,19 @@ class SignUp extends React.Component {
   }
 
 
+  handleSignUp = () => {
+    axios('http://localhost:3001/api/register', 
+    {
+      method: 'post',
+      data: this.state
+    })
+    .then(res => {
+      localStorage.setItem('token', res.data.token)
+      window.location.href = '#/addressbook';
+    })
+
+
+  }
 
 render() {
   return(
@@ -109,7 +123,7 @@ render() {
         validatepass = {this.state.validatepass}
         handleBlurPass = {this.handleBlurPass}
         handlePassInput = {this.handlePassInput}
-
+        handleSignUp = {this.handleSignUp}
     />
   )
 }

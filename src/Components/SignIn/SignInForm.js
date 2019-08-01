@@ -38,8 +38,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+
 export default function SignInFrom(props) {
   const classes = useStyles();
+
+
 
   return (
     <Container component="main" maxWidth="xs" style={{display: 'flex', alignItems: 'center'}}>
@@ -55,17 +59,17 @@ export default function SignInFrom(props) {
           <TextField
             error={!props.validate}
             defaultValue=""
-            required={!props.validate}
-            helperText={props.validate?'':"Email Address is required"}
-            onChange = {props.handleEmailInput}
-            onBlur={props.handleBlurEmail}
             variant="outlined"
             margin="normal"
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            helperText={props.validate?'':"Username is required"}
+            onChange = {props.handleUsernameInput}
+            onBlur={props.handleBlurUsername}
+            required={!props.validate}
           />
           <TextField
             error={!props.validatepass}
@@ -83,21 +87,21 @@ export default function SignInFrom(props) {
             id="password"
             autoComplete="current-password"
           />
-          <Link to='/addressbook'>
+          {/* <Link to='addressbook' style={{textDecoration: 'none'}}> */}
             <Button
-              type="submit"
+              // type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick = {props.getUser}
+              onClick = {props.handleLogin}
             >
               Sign In
             </Button>
-          </Link>
+          {/* </Link> */}
           <Grid container justify="flex-end">
             <Grid item>
-              <Link to='/register'>
+              <Link to='/register' style={{textDecoration: 'none'}}>
                 <span style={{textAlign: 'center'}}>{"Don't have an account? Sign Up"}</span>
               </Link>
             </Grid>

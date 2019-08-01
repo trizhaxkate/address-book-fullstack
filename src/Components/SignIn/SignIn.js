@@ -1,5 +1,6 @@
 import React from 'react'
 import SignInForm from './SignInForm'
+import axios from 'axios'
 
 class SignIn extends React.Component {
   constructor(props){
@@ -8,23 +9,24 @@ class SignIn extends React.Component {
     this.state = {
       validate: true,
       validatepass: true,
-      email: '',
+      username: '',
       password: '',
       loginError: false,
+      inputValues: ''
     }
   }
 
 
-  handleBlurEmail = () => {
+  handleBlurUsername = () => {
     this.setState({
-      validate: !!this.state.email
+      validate: !!this.state.username
     })        
   }
 
-  handleEmailInput = (e) => {
+  handleUsernameInput = (e) => {
     var input = e.target.value
     this.setState({
-      email: input,
+      username: input,
       validate: true  
     })
   }
@@ -46,11 +48,17 @@ class SignIn extends React.Component {
     
   }
 
-  getUser = () => {
-    var email = this.state.email;
-    var password = this.state.password;
 
-    
+  handleLogin = () => {
+    axios('http://localhost:3001/api/login', 
+    {
+      method: 'post',
+      data: this.state
+    })
+    .then(res => {
+      localStorage.setItem('token', res.data.token)
+      window.location.href = '#/addressbook';
+    })
   }
 
 
@@ -58,12 +66,12 @@ class SignIn extends React.Component {
     return(
     <SignInForm  
           validate={this.state.validate} 
-          handleEmailInput ={this.handleEmailInput} 
-          handleBlurEmail={this.handleBlurEmail}
+          handleUsernameInput ={this.handleUsernameInput} 
+          handleBlurUsername={this.handleBlurUsername}
           handleBlurPass={this.handleBlurPass}
           handlePassInput ={this.handlePassInput}
           validatepass={this.state.validatepass}
-          getUser = {this.getUser}
+          handleLogin = {this.handleLogin}
     />
 
     )
