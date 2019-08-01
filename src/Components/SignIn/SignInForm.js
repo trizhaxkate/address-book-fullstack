@@ -10,12 +10,15 @@ import Container from '@material-ui/core/Container';
 import Routes from '../Routes';
 import {Link} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
+import logo from '../../img/book.png'
+import Divider from '@material-ui/core/Divider';
 
 
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
-      backgroundColor: theme.palette.common.white,
+      background: 'rgb(131,58,180)',
+      background: 'linear-gradient(90deg, rgba(131,58,180,0.68531162464986) 0%, rgba(253,29,29,0.6376925770308124) 50%, rgba(252,176,69,0.8421743697478992) 100%)',
     },
   },
   paper: {
@@ -23,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '15px'
+    padding: '25px'
   },
   avatar: {
     margin: theme.spacing(1),
@@ -50,10 +53,9 @@ export default function SignInFrom(props) {
       <Paper className={classes.paper}>
       <CssBaseline />
       <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-        <Avatar className={classes.avatar}>
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
+      <img src={logo} alt="Logo" style={{width: '30%', marginBottom: '15px'}}/>
+        <Typography component="h1" variant="h5" style={{fontWeight: '100', color: 'gray'}}>
+          SIGN IN
         </Typography>
         <form className={classes.form}>
           <TextField
@@ -92,20 +94,24 @@ export default function SignInFrom(props) {
               // type="submit"
               fullWidth
               variant="contained"
-              color="primary"
               className={classes.submit}
               onClick = {props.handleLogin}
             >
               Sign In
             </Button>
-          {/* </Link> */}
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link to='/register' style={{textDecoration: 'none'}}>
-                <span style={{textAlign: 'center'}}>{"Don't have an account? Sign Up"}</span>
-              </Link>
-            </Grid>
-          </Grid>
+            <Divider variant="middle" style={{marginTop: '15px', marginBottom: '15px'}}/>
+            <div  style={{textAlign: 'center'}}>{"Don't have an account yet?"}</div>
+            <Link to='/register' style={{textDecoration: 'none'}}>
+            <Button
+              // type="submit"
+              fullWidth
+              variant="contained"
+              onClick = {props.handleLogin}
+              style={{background: "#4a4d63", color: 'white', marginTop: '10px'}}
+            >
+              Sign Up
+            </Button>
+          </Link>
         </form>
       </div>
       </Paper>   
