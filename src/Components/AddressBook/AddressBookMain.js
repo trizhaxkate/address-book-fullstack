@@ -88,7 +88,7 @@ function ListItemLink(props) {
 
 
 
-export default function AddressBook() {
+export default function AddressBook(props) {
   
   function handleClickOpen() {
     setOpen(true);
@@ -106,8 +106,9 @@ export default function AddressBook() {
   return (
     <React.Fragment>
     <AppBar position="static" style={{
-        backgroundColor: 'rgb(131,58,180)',
-        background: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)'
+        background: 'rgb(131,58,180)',
+        background: 'linear-gradient(90deg, rgba(131,58,180,0.68531162464986) 0%, rgba(253,29,29,0.6376925770308124) 50%, rgba(252,176,69,0.8421743697478992) 100%)',
+        color: 'white',
     }}>
         <Toolbar>
           <Icon className={classes.menuButton}  color="disabled" fontSize="large">
@@ -131,7 +132,7 @@ export default function AddressBook() {
             <List component="nav" aria-label="main mailbox folders">
                 <ListItem button>
                 <ListItemAvatar>
-                    <Avatar style={{background: '#833ab4'}}>
+                    <Avatar style={{background: 'rgba(131,58,180,0.68531162464986) 0%'}}>
                       <Icon>group_add</Icon>
                     </Avatar>
                   </ListItemAvatar>
@@ -145,7 +146,7 @@ export default function AddressBook() {
                 <Divider />
                 <ListItem button>
                   <ListItemAvatar>
-                    <Avatar style={{background: '#833ab4'}}>
+                    <Avatar style={{background: 'rgba(131,58,180,0.68531162464986) 0%'}}>
                       <Icon>group_add</Icon>
                     </Avatar>
                   </ListItemAvatar>
@@ -172,12 +173,14 @@ export default function AddressBook() {
                 />
             </span> 
             <span style={{float: 'left', marginRight: '25px', marginTop: '20px', marginBottom: '10px'}}>
-                <Fab size="medium" style={{backgroundColor: '#fcb045'}} aria-label="add">
+                <Fab size="medium" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)'}} aria-label="add">
                     <Icon style={{float: 'right', color: 'white'}} onClick={handleClickOpen}>add</Icon>
                 </Fab>
 
                 <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" className={classes.dialog}>
-                  <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>ADD NEW CONTACT</DialogTitle>
+                  <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
+                    ADD NEW CONTACT
+                  </DialogTitle>
                 <DialogContent>
                   {/* <DialogContentText>
                     
@@ -295,21 +298,21 @@ export default function AddressBook() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.name}>
+              {props.contactList.map(row => (
+                <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {row.first_name}
                   </TableCell>
-                  <TableCell align="right">{row.calories}</TableCell>
-                  <TableCell align="right">{row.fat}</TableCell>
+                  <TableCell align="right">{row.last_name}</TableCell>
+                  <TableCell align="right">{row.mobile_phone}</TableCell>
                   <TableCell align="right">
-                      <Fab size="small" style={{backgroundColor: '#833ab4', color: 'white', marginRight: '10px'}} aria-label="add" className={classes.margin}>
+                      <Fab size="small" style={{backgroundColor: 'rgba(131,58,180,0.68531162464986)', color: 'white', marginRight: '10px'}} aria-label="add" className={classes.margin}>
                         <Icon>edit</Icon>
                       </Fab>
-                      <Fab size="small" style={{backgroundColor: '#fd1d1d', color: 'white', marginRight: '10px'}} aria-label="add" className={classes.margin}>
+                      <Fab size="small" style={{backgroundColor: 'rgba(253,29,29,0.6376925770308124)', color: 'white', marginRight: '10px'}} aria-label="add" className={classes.margin}>
                         <Icon>delete</Icon>
                       </Fab>
-                      <Fab size="small" style={{backgroundColor: '#fcb045', color: 'white'}} aria-label="add" className={classes.margin}>
+                      <Fab size="small" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)', color: 'white'}} aria-label="add" className={classes.margin}>
                       <Icon>group_add</Icon>
                       </Fab>
                   </TableCell>

@@ -18,9 +18,12 @@ massive({
   app.use(cors());
   app.post('/api/login', users.login);
   app.post('/api/register', users.register);
+  app.post('/api/contacts', users.createContact);
+  app.get('/api/contacts', users.contactList)
 
   const PORT = 3001;
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
   });
 });
+

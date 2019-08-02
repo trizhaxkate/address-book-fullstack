@@ -12,7 +12,8 @@ import {Link} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import logo from '../../img/book.png'
 import Divider from '@material-ui/core/Divider';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -57,7 +58,7 @@ export default function SignInFrom(props) {
         <Typography component="h1" variant="h5" style={{fontWeight: '100', color: 'gray'}}>
           SIGN IN
         </Typography>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={props.handleLogin}>
           <TextField
             error={!props.validate}
             defaultValue=""
@@ -72,6 +73,7 @@ export default function SignInFrom(props) {
             onChange = {props.handleUsernameInput}
             onBlur={props.handleBlurUsername}
             required={!props.validate}
+            autoFocus
           />
           <TextField
             error={!props.validatepass}
@@ -89,13 +91,11 @@ export default function SignInFrom(props) {
             id="password"
             autoComplete="current-password"
           />
-          {/* <Link to='addressbook' style={{textDecoration: 'none'}}> */}
             <Button
-              // type="submit"
               fullWidth
               variant="contained"
               className={classes.submit}
-              onClick = {props.handleLogin}
+              type="submit"
             >
               Sign In
             </Button>
@@ -103,15 +103,14 @@ export default function SignInFrom(props) {
             <div  style={{textAlign: 'center'}}>{"Don't have an account yet?"}</div>
             <Link to='/register' style={{textDecoration: 'none'}}>
             <Button
-              // type="submit"
               fullWidth
               variant="contained"
-              onClick = {props.handleLogin}
               style={{background: "#4a4d63", color: 'white', marginTop: '10px'}}
             >
               Sign Up
             </Button>
           </Link>
+          <ToastContainer hideProgressBar/>
         </form>
       </div>
       </Paper>   

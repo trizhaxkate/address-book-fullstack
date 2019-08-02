@@ -1,6 +1,8 @@
 import React from 'react'
 import SignInForm from './SignInForm'
 import axios from 'axios'
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 class SignIn extends React.Component {
   constructor(props){
@@ -12,7 +14,7 @@ class SignIn extends React.Component {
       username: '',
       password: '',
       loginError: false,
-      inputValues: ''
+      inputValues: '',
     }
   }
 
@@ -49,7 +51,8 @@ class SignIn extends React.Component {
   }
 
 
-  handleLogin = () => {
+  handleLogin = (e) => {
+    e.preventDefault();
     axios('http://localhost:3001/api/login', 
     {
       method: 'post',
@@ -58,6 +61,11 @@ class SignIn extends React.Component {
     .then(res => {
       localStorage.setItem('token', res.data.token)
       window.location.href = '#/addressbook';
+    })
+    .catch(res => {
+      toast.error("Incorrect username or password.", {
+        position: toast.POSITION.TOP_RIGHT
+      })
     })
   }
 

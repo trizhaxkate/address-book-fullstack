@@ -70,8 +70,45 @@ function register(req, res) {
       });
   }
   
+  function createContact(req, res){
+    const db = req.app.get('db');
+    const { first_name, last_name, home_phone, mobile_phone, work_phone, email, city, state_or_province, postal_code, country } = req.body;
+    db.contact
+    .insert(
+      {
+        first_name,
+        last_name,
+        home_phone,    
+        mobile_phone,
+        work_phone,    
+        email,    
+        city,    
+        state_or_province,
+        postal_code,    
+        country
+      },
+    )
+    .then(contact => res.status(201).json(contact))
+    .catch(err => {
+      console.error(err);
+    });
+  }
+
+
+  function contactList(req, res) {
+    const db = req.app.get('db');
+    db.contact
+      .find()
+      .then(contact => res.status(200).json(contact))
+      .catch(err => {
+        console.error(err);
+        res.status(500).end();
+      });
+  }
 
 module.exports = {
   register,
   login,
+  createContact,
+  contactList
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
-import AddressBook from './AddressBook';
+import AddressBook from '../Components/AddressBook/AddressBook';
 
 export default function Routes(){
   return(

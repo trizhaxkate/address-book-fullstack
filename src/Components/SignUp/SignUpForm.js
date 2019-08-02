@@ -11,18 +11,25 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
+import logo from '../../img/book.png'
+import Divider from '@material-ui/core/Divider';
+
 
 const useStyles = makeStyles(theme => ({
   '@global': {
     body: {
-      backgroundColor: theme.palette.common.white,
+      background: 'rgb(131,58,180)',
+      background: 'linear-gradient(90deg, rgba(131,58,180,0.68531162464986) 0%, rgba(253,29,29,0.6376925770308124) 50%, rgba(252,176,69,0.8421743697478992) 100%)',
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(13),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    padding: '25px',
+    marginBottom: theme.spacing(7),
   },
   avatar: {
     margin: theme.spacing(1),
@@ -42,30 +49,30 @@ export default function SignUpForm(props) {
 
   return (
     <Container component="main" maxWidth="xs">
+      <Paper className={classes.paper}>
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
+      <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+        <img src={logo} alt="Logo" style={{width: '30%', marginBottom: '20px'}}/>
+        <Typography style={{fontWeight: '100', color: 'gray', fontSize: '20px'}}>
+          CREATE AN ACCOUNT
         </Typography>
-        <form className={classes.form}>
+        <form className={classes.form} onSubmit={props.handleSignUp}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+                name="first_name"
+                id="first_name"
                 variant="outlined"
                 fullWidth
-                id="firstName"
                 label="First Name"
-
                 error={!props.validatefirst}
                 defaultValue=""
                 required={!props.validatefirst}
                 helperText={props.validatefirst?'':"First Name is required"}
                 onChange = {props.handleFnameInput}
                 onBlur={props.handleBlurFname}
+                autoFocus
               />
 
             </Grid>
@@ -73,11 +80,10 @@ export default function SignUpForm(props) {
               <TextField
                 variant="outlined"
                 fullWidth
-                id="lastName"
+                id="last_name"
                 label="Last Name"
-                name="lastName"
+                name="last_name"
                 autoComplete="lname"
-
                 error={!props.validatelast}
                 defaultValue=""
                 required={!props.validatelast}
@@ -142,21 +148,26 @@ export default function SignUpForm(props) {
           <Button
             fullWidth
             variant="contained"
-            color="primary"
             className={classes.submit}
-            onClick={props.handleSignUp}
+            type="submit"
+
           >
             Sign Up
           </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="#" variant="body2" style={{textDecoration: 'none'}}>
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
+          <Divider variant="middle" style={{marginTop: '15px', marginBottom: '15px'}}/>
+          <div  style={{textAlign: 'center'}}>{"Already have an account?"}</div>
+            <Link href="#" style={{textDecoration: 'none'}}>
+            <Button
+              fullWidth
+              variant="contained"
+              style={{background: "#4a4d63", color: 'white', marginTop: '10px'}}
+            >
+              Sign In
+            </Button>
+          </Link>
         </form>
       </div>
+      </Paper>
     </Container>
   );
 }

@@ -98,9 +98,9 @@ class SignUp extends React.Component {
       data: this.state
     })
     .then(res => {
-      window.location.href = '#/addressbook';
+      console.log(res)
     })  
-    console.log('dsadasd')
+    // console.log('dsadasd')
 
   }
 
