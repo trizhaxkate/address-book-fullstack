@@ -90,18 +90,12 @@ function ListItemLink(props) {
 
 export default function AddressBook(props) {
   
-  function handleClickOpen() {
-    setOpen(true);
-  }
-  
-  function handleClose() {
-    setOpen(false);
-  }
+ 
   
   const [dense, setDense] = React.useState(false);
   const [secondary, setSecondary] = React.useState(false);
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+ 
 
   return (
     <React.Fragment>
@@ -174,10 +168,10 @@ export default function AddressBook(props) {
             </span> 
             <span style={{float: 'left', marginRight: '25px', marginTop: '20px', marginBottom: '10px'}}>
                 <Fab size="medium" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)'}} aria-label="add">
-                    <Icon style={{float: 'right', color: 'white'}} onClick={handleClickOpen}>add</Icon>
+                    <Icon style={{float: 'right', color: 'white'}} onClick={props.handleClickOpen}>add</Icon>
                 </Fab>
 
-                <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" className={classes.dialog}>
+                <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title" className={classes.dialog}>
                   <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
                     ADD NEW CONTACT
                   </DialogTitle>
@@ -189,21 +183,23 @@ export default function AddressBook(props) {
                     <Grid item xs={12} sm={6}>
                       <TextField
                         required
-                        id="firstName"
-                        name="firstName"
+                        id="first_name"
+                        name="first_name"
                         label="First name"
                         fullWidth
                         autoComplete="fname"
+                        onChange={props.handleAdd}
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField
                         required
-                        id="lastName"
-                        name="lastName"
+                        id="last_name"
+                        name="last_name"
                         label="Last name"
                         fullWidth
                         autoComplete="lname"
+                        onChange={props.handleAdd}
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -213,24 +209,27 @@ export default function AddressBook(props) {
                         name="email"
                         label="Email Address"
                         fullWidth
+                        onChange={props.handleAdd}
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
                       <TextField
                         required
-                        id="mobile"
-                        name="mobile"
+                        id="mobile_phone"
+                        name="mobile_phone"
                         label="Mobile Phone"
                         fullWidth
+                        onChange={props.handleAdd}
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
                       <TextField
                         required
-                        id="homephone"
-                        name="homephone"
+                        id="home_phone"
+                        name="home_phone"
                         label="Home Phone"
                         fullWidth
+                        onChange={props.handleAdd}
                       />
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -240,6 +239,7 @@ export default function AddressBook(props) {
                         name="work_phone"
                         label="Work Phone"
                         fullWidth
+                        onChange={props.handleAdd}
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -250,19 +250,27 @@ export default function AddressBook(props) {
                         label="City"
                         fullWidth
                         autoComplete="billing address-level2"
+                        onChange={props.handleAdd}
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField id="state" name="state" label="State/Province/Region" fullWidth />
+                      <TextField 
+                      id="state_or_province" 
+                      name="state_or_province" 
+                      label="State/Province/Region" 
+                      fullWidth 
+                      onChange={props.handleAdd}
+                      />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField
                         required
-                        id="zip"
-                        name="zip"
+                        id="postal_code"
+                        name="postal_code"
                         label="Zip / Postal code"
                         fullWidth
                         autoComplete="billing postal-code"
+                        onChange={props.handleAdd}
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -273,15 +281,16 @@ export default function AddressBook(props) {
                         label="Country"
                         fullWidth
                         autoComplete="billing country"
+                        onChange={props.handleAdd}
                       />
                     </Grid>
                   </Grid>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClose} color="primary">
+                  <Button onClick={props.handleClose} color="primary">
                     CANCEL
                   </Button>
-                  <Button onClick={handleClose} color="primary">
+                  <Button onClick={props.handleAddContact} color="primary">
                     ADD
                   </Button>
                 </DialogActions>

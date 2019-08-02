@@ -91,14 +91,15 @@ class SignUp extends React.Component {
   }
 
 
-  handleSignUp = () => {
+  handleSignUp = (e) => {
+    e.preventDefault();
     axios('http://localhost:3001/api/register', 
     {
       method: 'post',
       data: this.state
     })
     .then(res => {
-      console.log(res)
+      window.location.href = '#/';
     })  
     // console.log('dsadasd')
 
