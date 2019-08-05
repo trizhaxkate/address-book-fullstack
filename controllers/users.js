@@ -73,38 +73,61 @@ function register(req, res) {
   function createContact(req, res){
     const db = req.app.get('db');
     const { first_name, last_name, home_phone, mobile_phone, work_phone, email, city, state_or_province, postal_code, country } = req.body;
+
+    const user_id = req.params.user;
+    
+    const temp = [];
+
     db.contact
     .insert(
       {
         first_name,
         last_name,
-        home_phone,    
+        home_phone,
         mobile_phone,
-        work_phone,    
-        email,    
-        city,    
+        work_phone,
+        email,
+        city,
         state_or_province,
-        postal_code,    
-        country
-      },
+        postal_code,
+        country,
+      }
     )
-    .then(contact => res.status(201).json(contact))
-    .catch(err => {
-      console.error(err);
-    });
+    .then(data=>{
+        temp.push(data);
+        let contact_id = data.id;
+        // console.log(userId,"-",contactId);
+        
+        db.address_book
+        .insert(
+          {
+            user_id,
+            contact_id,
+          }
+        ).then(add=>{
+          console.log(add)
+          temp.push(add)
+          res.status(201).json(temp)
+        })
+    })
   }
 
-
-  function contactList(req, res) {
+  function contactList(req, res){
     const db = req.app.get('db');
-    db.contact
-      .find()
-      .then(contact => res.status(200).json(contact))
-      .catch(err => {
-        console.error(err);
-        res.status(500).end();
-      });
+    const userID = req.query.id;
+    console.log(req.query.id)
+    db
+    .query(
+      'Select contact.* from users, contact, address_book WHERE users.id = address_book.user_id AND contact.id = address_book.contact_id AND users.id = ${id} ORDER BY contact.first_name',
+      {
+        id:req.query.id
+      }
+    )
+    .then(data=>{
+      res.status(200).json(data)
+    })
   }
+
 
   function deleteContact(req,res){
     const db = req.app.get('db');

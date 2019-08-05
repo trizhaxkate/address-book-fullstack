@@ -18,8 +18,8 @@ massive({
   app.use(cors());
   app.post('/api/login', users.login);
   app.post('/api/register', users.register);
-  app.post('/api/contacts', users.createContact);
-  app.get('/api/contacts', users.contactList)
+  app.post('/api/contacts/:user', users.createContact);
+  app.get('/api/contacts/list', users.contactList)
   app.delete('/api/delete', users.deleteContact);
 
 

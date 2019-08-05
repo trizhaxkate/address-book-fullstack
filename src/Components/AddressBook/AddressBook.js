@@ -6,17 +6,14 @@ import ContactArea from './ContactArea'
 import Grid from '@material-ui/core/Grid'
 import jwtDecode from 'jwt-decode'
   
-  
-// const token = localStorage.getItem('token');
-// if(!token){
-//   window.location.href='/#/';
-// }
 
-
-// var decoded = jwtDecode(token);
-// const logged_userID = decoded.userId;
-
-
+if (localStorage.getItem('token') === null || localStorage.getItem('token').length === 0) {
+    window.location.href = '#/'
+}
+const token = localStorage.getItem('token');
+var decoded = jwtDecode(token);
+const logged_userID = decoded.userId;
+console.log(logged_userID)
 
 class AddressBook extends React.Component {
     constructor(props) {
@@ -36,12 +33,12 @@ class AddressBook extends React.Component {
             country: '',
             open: false,
             rowID: '',
-            deleteOpen: false
+            deleteOpen: false,
         }
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3001/api/contacts')
+        axios.get(`http://localhost:3001/api/contacts/list?id=${logged_userID}`)
         .then(res => 
             this.setState({
                 contactList: res.data
@@ -61,7 +58,7 @@ class AddressBook extends React.Component {
 
     handleAddContact = () => {
         axios({
-                url: 'http://localhost:3001/api/contacts',
+                url: `http://localhost:3001/api/contacts/${logged_userID}`,
                 method: 'post',
                 json: true,
                 data: this.state,
