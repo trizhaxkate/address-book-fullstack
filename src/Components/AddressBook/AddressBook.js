@@ -10,10 +10,12 @@ import jwtDecode from 'jwt-decode'
 if (localStorage.getItem('token') === null || localStorage.getItem('token').length === 0) {
     window.location.href = '#/'
 }
+
+
 const token = localStorage.getItem('token');
-var decoded = jwtDecode(token);
-const logged_userID = decoded.userId;
-console.log(logged_userID)
+// var decoded = jwtDecode(token);
+// const logged_userID = decoded.userId;
+// console.log(decoded)
 
 class AddressBook extends React.Component {
     constructor(props) {
@@ -34,16 +36,25 @@ class AddressBook extends React.Component {
             open: false,
             rowID: '',
             deleteOpen: false,
+            editOpen: false,
+            token: localStorage.getItem('token'),
+            // logged_userId:''
+            // decoded: jwtDecode(this.state.token)
         }
     }
 
     componentDidMount() {
+        const decoded = jwtDecode(this.state.token);
+        const logged_userID = decoded.userId;
+
         axios.get(`http://localhost:3001/api/contacts/list?id=${logged_userID}`)
         .then(res => 
             this.setState({
                 contactList: res.data
+               
             })    
         )
+        console.log(logged_userID)
     }
 
 
@@ -53,10 +64,12 @@ class AddressBook extends React.Component {
             [e.target.name]: e.target.value 
         })
 
-        console.log(this.state)
+        // console.log(this.state)
     }
 
     handleAddContact = () => {
+        const decoded = jwtDecode(this.state.token);
+        const logged_userID = decoded.userId;
         axios({
                 url: `http://localhost:3001/api/contacts/${logged_userID}`,
                 method: 'post',
@@ -111,6 +124,21 @@ class AddressBook extends React.Component {
         })
     }
 
+    handleEditOpen = (e) => {
+        // var id = e.target.id;
+        this.setState({
+            editOpen: true,
+            // rowID: id
+        })
+        // console.log(e.target.id)
+    }
+      
+    handleEditClose = () => {
+        this.setState({
+            editOpen: false
+        })
+    }
+
 
     render() {
         return (
@@ -129,6 +157,9 @@ class AddressBook extends React.Component {
                 handleDeleteOpen = {this.handleDeleteOpen}
                 handleDeleteContact = {this.handleDeleteContact}
                 deleteOpen = {this.state.deleteOpen}
+                handleEditOpen = {this.handleEditOpen}
+                handleEditClose = {this.handleEditClose}
+                editOpen = {this.state.editOpen}
                 />
             </Grid>
             </React.Fragment>

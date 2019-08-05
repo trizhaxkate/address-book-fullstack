@@ -239,8 +239,8 @@ export default function ContactArea(props) {
                 <TableCell align="right">{row.last_name}</TableCell>
                 <TableCell align="right">{row.mobile_phone}</TableCell>
                 <TableCell align="right">
-                    <Fab size="small" style={{backgroundColor: 'rgba(131,58,180,0.68531162464986)', color: 'white', marginRight: '10px'}} aria-label="add" className={classes.margin}>
-                        {<Icon>edit</Icon>}
+                    <Fab onClick={props.handleEditOpen} size="small" style={{backgroundColor: 'rgba(131,58,180,0.68531162464986)', color: 'white', marginRight: '10px'}} aria-label="add" className={classes.margin}>
+                        <Icon>edit</Icon>
                     </Fab>
                     <Fab 
                     size="small" 
@@ -297,6 +297,126 @@ export default function ContactArea(props) {
                 </Button>
                 </DialogActions>
             </Dialog>
+
+            
+            <Dialog open={props.editOpen} onClose={props.handleEditClose} aria-labelledby="form-dialog-title" className={classes.dialog}>
+                    <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
+                        ADD NEW CONTACT
+                    </DialogTitle>
+
+                    <DialogContent>
+                        {/* <DialogContentText>
+                            
+                        </DialogContentText> */}
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                id="first_name"
+                                name="first_name"
+                                label="First name"
+                                fullWidth
+                                autoComplete="fname"
+                                defaultValue='dsadsd'
+                            />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                id="last_name"
+                                name="last_name"
+                                label="Last name"
+                                fullWidth
+                                autoComplete="lname"
+                            />
+                            </Grid>
+                            <Grid item xs={12}>
+                            <TextField
+                                required
+                                id="email"
+                                name="email"
+                                label="Email Address"
+                                fullWidth
+                            />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                            <TextField
+                                required
+                                id="mobile_phone"
+                                name="mobile_phone"
+                                label="Mobile Phone"
+                                fullWidth
+                            />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                            <TextField
+                                required
+                                id="home_phone"
+                                name="home_phone"
+                                label="Home Phone"
+                                fullWidth
+                            />
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                            <TextField
+                                required
+                                id="work_phone"
+                                name="work_phone"
+                                label="Work Phone"
+                                fullWidth
+                            />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                id="city"
+                                name="city"
+                                label="City"
+                                fullWidth
+                                autoComplete="billing address-level2"
+                            />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                            <TextField 
+                            id="state_or_province" 
+                            name="state_or_province" 
+                            label="State/Province/Region" 
+                            fullWidth 
+                            />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                id="postal_code"
+                                name="postal_code"
+                                label="Zip / Postal code"
+                                fullWidth
+                                autoComplete="billing postal-code"
+                            />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                id="country"
+                                name="country"
+                                label="Country"
+                                fullWidth
+                                autoComplete="billing country"
+                            />
+                            </Grid>
+                        </Grid>
+                    </DialogContent>
+
+                    <DialogActions>
+                        <Button onClick={props.handleEditClose} color="primary">
+                            CANCEL
+                        </Button>
+                        <Button color="primary">
+                            ADD
+                        </Button>
+                    </DialogActions>
+            </Dialog>
+            
     </Grid>
     </React.Fragment>     
     
