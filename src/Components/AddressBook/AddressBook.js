@@ -1,6 +1,22 @@
 import React from 'react'
-import AddressBookMain from '../AddressBook/AddressBookMain'
 import axios from 'axios'
+import Header from './Header'
+import GroupArea from './GroupArea'
+import ContactArea from './ContactArea'
+import Grid from '@material-ui/core/Grid'
+import jwtDecode from 'jwt-decode'
+  
+  
+// const token = localStorage.getItem('token');
+// if(!token){
+//   window.location.href='/#/';
+// }
+
+
+// var decoded = jwtDecode(token);
+// const logged_userID = decoded.userId;
+
+
 
 class AddressBook extends React.Component {
     constructor(props) {
@@ -18,7 +34,9 @@ class AddressBook extends React.Component {
             state_or_province: '',
             postal_code: '',
             country: '',
-            open: false
+            open: false,
+            rowID: '',
+            deleteOpen: false
         }
     }
 
@@ -54,37 +72,69 @@ class AddressBook extends React.Component {
 
         this.setState({
             open: false
-        })
-        // .then(res => {
-        //     window.location.href = '#/addressbook';
-        // })  
+        }) 
     }
 
-     handleClickOpen = () => {
+
+    handleAddOpen = () => {
         this.setState({
             open: true
         })
       }
       
-      handleClose = () => {
+    handleAddClose = () => {
         this.setState({
             open: false
         })
-      }
+    }
 
+    handleDeleteOpen = (e) => {
+        // var id = e.target.id;
+        this.setState({
+            deleteOpen: true,
+            // rowID: id
+        })
+        // console.log(e.target.id)
+    }
+      
+    handleDeleteClose = () => {
+        this.setState({
+            deleteOpen: false
+        })
+    }
 
+    
+    handleDeleteContact = () => {
+        axios({
+            method: 'delete',
+            url: `  http://localhost:3001/api/delete?cid=${this.state.rowID}`,
+        })
+        .then(res => {
+            window.location.reload();
+        })
+    }
 
 
     render() {
         return (
-            <AddressBookMain 
-            contactList = {this.state.contactList}
-            handleAdd = {this.handleAdd}
-            handleAddContact = {this.handleAddContact}
-            handleClickOpen = {this.handleClickOpen}
-            handleClose = {this.handleClose}
-            open = {this.state.open}
-            />
+            <React.Fragment>
+            <Header/>
+            <Grid container spacing={5} style={{padding: '50px'}}>
+                <GroupArea/>
+                <ContactArea 
+                contactList = {this.state.contactList}
+                handleAdd = {this.handleAdd}
+                handleAddContact = {this.handleAddContact}
+                handleAddOpen = {this.handleAddOpen}
+                handleAddClose = {this.handleAddClose}
+                open = {this.state.open}
+                handleDeleteClose = {this.handleDeleteClose}
+                handleDeleteOpen = {this.handleDeleteOpen}
+                handleDeleteContact = {this.handleDeleteContact}
+                deleteOpen = {this.state.deleteOpen}
+                />
+            </Grid>
+            </React.Fragment>
         )
     }
 }

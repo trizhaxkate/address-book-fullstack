@@ -106,9 +106,37 @@ function register(req, res) {
       });
   }
 
+  function deleteContact(req,res){
+    const db = req.app.get('db');
+    let deleted = [];
+    console.log(req.query.cid);
+    db
+    .query(
+      'DELETE FROM address_book WHERE contact_id=${id}',
+      {
+        id:req.query.cid
+      }
+    )
+    .then(data=>{
+      deleted.push(data);
+      db
+      .query(
+        'DELETE FROM contact WHERE id=${id}',
+        {
+          id:req.query.cid
+        }
+      )
+      .then(data2=>{
+        deleted.push(data2)
+        res.status(200).json(deleted)
+      })
+    })
+  }
+
 module.exports = {
   register,
   login,
   createContact,
-  contactList
+  contactList,
+  deleteContact
 };

@@ -1,19 +1,16 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Routes from '../Routes';
 import {Link} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 import logo from '../../img/book.png'
 import Divider from '@material-ui/core/Divider';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
   '@global': {

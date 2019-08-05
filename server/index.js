@@ -20,6 +20,8 @@ massive({
   app.post('/api/register', users.register);
   app.post('/api/contacts', users.createContact);
   app.get('/api/contacts', users.contactList)
+  app.delete('/api/delete', users.deleteContact);
+
 
   const PORT = 3001;
   app.listen(PORT, () => {
