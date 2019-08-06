@@ -38,8 +38,8 @@ class AddressBook extends React.Component {
             deleteOpen: false,
             editOpen: false,
             token: localStorage.getItem('token'),
-            // logged_userId:''
-            // decoded: jwtDecode(this.state.token)
+            fName: localStorage.getItem('first_name'),
+            lName: localStorage.getItem('last_name'),
         }
     }
 
@@ -145,7 +145,7 @@ class AddressBook extends React.Component {
             <React.Fragment>
             <Header/>
             <Grid container spacing={5} style={{padding: '50px'}}>
-                <GroupArea/>
+                <GroupArea fName = {this.state.fName} lName = {this.state.lName}/>
                 <ContactArea 
                 contactList = {this.state.contactList}
                 handleAdd = {this.handleAdd}

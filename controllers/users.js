@@ -12,7 +12,7 @@ function login(req, res) {
         username,
       },
       {
-        fields: ['id', 'username', 'password'],
+        fields: ['id', 'username', 'password', 'fName', 'lName'],
       }
     )
     .then(user => {
@@ -156,10 +156,54 @@ function register(req, res) {
     })
   }
 
+
+  function editContact(req, res){
+    const db = req.app.get('db');
+
+    const {
+      first_name,
+      last_name,
+      home_phone,
+      mobile_phone,
+      work_phone,
+      email,
+      city,
+      state_or_province,
+      postal_code,
+      country
+    } = req.body;
+
+    db.contact
+    .update(
+      {
+        id: req.query.cid
+      },
+      {
+        first_name,
+        last_name,
+        home_phone,
+        mobile_phone,
+        work_phone,
+        email,
+        city,
+        state_or_province,
+        postal_code,
+        country
+      }
+    )
+    .then(data =>{
+      res.status(201).json(data)
+    })
+    .catch(err => {
+      console.error(err);
+    })
+  }
+
 module.exports = {
   register,
   login,
   createContact,
   contactList,
-  deleteContact
+  deleteContact,
+  editContact
 };

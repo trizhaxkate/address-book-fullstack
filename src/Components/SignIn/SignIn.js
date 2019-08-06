@@ -60,6 +60,10 @@ class SignIn extends React.Component {
     })
     .then(res => {
       localStorage.setItem('token', res.data.token)
+      localStorage.setItem('first_name', res.data.fName)
+      localStorage.setItem('last_name', res.data.lName)
+
+      console.log(res)
       window.location.href = '#/addressbook';
     })
     .catch(res => {
