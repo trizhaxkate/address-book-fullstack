@@ -79,16 +79,20 @@ export default function GroupArea(props) {
                     <Typography variant="body2" color="textSecondary" component="p">
                       Welcome to your address book, {props.fName}!
                     </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p"  style={{marginTop: '10px'}}>
+                      <div><Icon style={{verticalAlign: 'middle', marginRight: '10px', marginBottom: '5px '}}>person</Icon> {props.username}</div>
+                      <div><Icon style={{verticalAlign: 'middle',marginRight: '10px'}}>email</Icon> {props.email}</div>
+                    </Typography>
                   </CardContent>
                 </CardActionArea>
-                <CardActions>
+                {/* <CardActions>
                   <Button size="small" color="primary">
                     Share
                   </Button>
                   <Button size="small" color="primary">
                     Learn More
                   </Button>
-                </CardActions>
+                </CardActions> */}
             </Card>
 
             <Paper className={classes.root} style={{padding: '10px'}}>

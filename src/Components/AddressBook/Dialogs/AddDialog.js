@@ -31,7 +31,8 @@ export default function AddDialog({
     handleAddClose,
     open,
     handleAddContact,
-    handleAdd
+    handleAdd,
+    handleReset
 }) {
     const classes = useStyles();
 

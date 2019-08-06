@@ -21,9 +21,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
-import EditDialog from './EditDialog'
-import DeleteDialog from './DeleteDialog'
-import AddDialog from './AddDialog'
+import EditDialog from './Dialogs/EditDialog'
+import DeleteDialog from './Dialogs/DeleteDialog'
+import AddDialog from './Dialogs/AddDialog'
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -80,98 +81,98 @@ export default function ContactArea(props) {
     return (
         <React.Fragment>
         <Grid item xs={12} md={9}>
-        <Paper className={classes.root}>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <span style={{float: 'left', marginLeft: '15px', marginTop: '15px', marginBottom: '10px'}}>
-                <Icon style={{marginTop: '21px', marginRight: '7px', color: 'gray'}}>search</Icon>
-                <TextField
-                    id="standard-search"
-                    label="Search field"
-                    type="search"
-                    />
-                </span> 
-                <span style={{float: 'left', marginRight: '25px', marginTop: '20px', marginBottom: '10px'}}>
-                    <Fab size="medium" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)'}} aria-label="add">
-                        <Icon style={{float: 'right', color: 'white'}} onClick={props.handleAddOpen}>add</Icon>
-                    </Fab>
-                </span>
-            </div>
+            <Paper className={classes.root}>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <span style={{float: 'left', marginLeft: '15px', marginTop: '15px', marginBottom: '10px'}}>
+                    <Icon style={{marginTop: '21px', marginRight: '7px', color: 'gray'}}>search</Icon>
+                    <TextField
+                        id="standard-search"
+                        label="Search field"
+                        type="search"
+                        />
+                    </span> 
+                    <span style={{float: 'left', marginRight: '25px', marginTop: '20px', marginBottom: '10px'}}>
+                        <Fab size="medium" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)'}} aria-label="add">
+                            <Icon style={{float: 'right', color: 'white'}} onClick={props.handleAddOpen}>add</Icon>
+                        </Fab>
+                    </span>
+                </div>
 
 
-            <Table className={classes.table}>
-                <TableHead> 
-                <TableRow>
-                    <TableCell>FIRST NAME</TableCell>
-                    <TableCell align="right">LAST NAME</TableCell>
-                    <TableCell align="right">MOBILE NUMBER</TableCell>
-                    <TableCell align="right">ACTION </TableCell>
-                </TableRow>
-                </TableHead>
-                <TableBody>
-                {props.contactList.map(row => (
-                    <TableRow key={row.id}>
-                    <TableCell component="th" scope="row">
-                        {row.first_name}
-                    </TableCell>
-                    <TableCell align="right">{row.last_name}</TableCell>
-                    <TableCell align="right">{row.mobile_phone}</TableCell>
-                    <TableCell align="right">
-                        <Fab 
-                        onClick={() => {
-                            props.handleEditOpen(true);
-                            setEditData(row);
-                        }}
-                        size="small" 
-                        style={{backgroundColor: 'rgba(131,58,180,0.68531162464986)', color: 'white', marginRight: '10px'}} 
-                        aria-label="add" 
-                        className={classes.margin}>
-                            <Icon>edit</Icon>
-                        </Fab>
-                        <Fab 
-                        size="small" 
-                        style={{backgroundColor: 'rgba(253,29,29,0.6376925770308124)', color: 'white', marginRight: '10px'}}  
-                        className={classes.margin} 
-                        onClick={() => {
-                            props.handleDeleteOpen(true);
-                            setContactData(row);
-                        }}
-                        >
-                            <Icon>delete</Icon>
-                        </Fab>
-
-                        <Fab size="small" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)', color: 'white'}} aria-label="add" className={classes.margin}>
-                        <Icon>group_add</Icon>
-                        </Fab>
-                    </TableCell>
+                <Table className={classes.table}>
+                    <TableHead> 
+                    <TableRow>
+                        <TableCell>FIRST NAME</TableCell>
+                        <TableCell align="right">LAST NAME</TableCell>
+                        <TableCell align="right">MOBILE NUMBER</TableCell>
+                        <TableCell align="right">ACTION </TableCell>
                     </TableRow>
-                ))}
-                </TableBody>
-            </Table>
-        </Paper>
+                    </TableHead>
+                    <TableBody>
+                    {props.contactList.map(row => (
+                        <TableRow key={row.id}>
+                        <TableCell component="th" scope="row">
+                            {row.first_name}
+                        </TableCell>
+                        <TableCell align="right">{row.last_name}</TableCell>
+                        <TableCell align="right">{row.mobile_phone}</TableCell>
+                        <TableCell align="right">
+                            <Fab 
+                            onClick={() => {
+                                props.handleEditOpen(true);
+                                setEditData(row);
+                            }}
+                            size="small" 
+                            style={{backgroundColor: 'rgba(131,58,180,0.68531162464986)', color: 'white', marginRight: '10px'}} 
+                            aria-label="add" 
+                            className={classes.margin}>
+                                <Icon>edit</Icon>
+                            </Fab>
+                            <Fab 
+                            size="small" 
+                            style={{backgroundColor: 'rgba(253,29,29,0.6376925770308124)', color: 'white', marginRight: '10px'}}  
+                            className={classes.margin} 
+                            onClick={() => {
+                                props.handleDeleteOpen(true);
+                                setContactData(row);
+                            }}
+                            >
+                                <Icon>delete</Icon>
+                            </Fab>
 
-                <AddDialog 
-                 handleAdd = {props.handleAdd}
-                 handleAddContact = {props.handleAddContact}
-                 handleAddOpen = {props.handleAddOpen}
-                 handleAddClose = {props.handleAddClose}
-                 open = {props.open} />
+                            <Fab size="small" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)', color: 'white'}} aria-label="add" className={classes.margin}>
+                            <Icon>group_add</Icon>
+                            </Fab>
+                        </TableCell>
+                        </TableRow>
+                    ))}
+                    </TableBody>
+                </Table>
+            </Paper>
+
+            <AddDialog 
+                handleAdd = {props.handleAdd}
+                handleAddContact = {props.handleAddContact}
+                handleAddOpen = {props.handleAddOpen}
+                handleAddClose = {props.handleAddClose}
+                open = {props.open}
+                handleReset = {props.handleResetStopper}/>
 
 
-                <DeleteDialog 
-                    contactData = {contactData}
-                    handleDeleteClose = {props.handleDeleteClose}
-                    handleDeleteOpen = {props.handleDeleteOpen}
-                    handleDeleteContact = {props.handleDeleteContact}
-                    deleteOpen = {props.deleteOpen} />
-                    
-
+            <DeleteDialog 
+                contactData = {contactData}
+                handleDeleteClose = {props.handleDeleteClose}
+                handleDeleteOpen = {props.handleDeleteOpen}
+                handleDeleteContact = {props.handleDeleteContact}
+                deleteOpen = {props.deleteOpen} />
                 
-                <EditDialog 
-                    handleEditOpen = {props.handleEditOpen}
-                    handleEditClose = {props.handleEditClose}
-                    editOpen = {props.editOpen}
-                    editData = {editData} />
-                
+
+            
+            <EditDialog 
+                handleEditOpen = {props.handleEditOpen}
+                handleEditClose = {props.handleEditClose}
+                editOpen = {props.editOpen}
+                editData = {editData} />   
         </Grid>
         </React.Fragment>     
         

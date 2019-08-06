@@ -62,6 +62,9 @@ class SignIn extends React.Component {
       localStorage.setItem('token', res.data.token)
       localStorage.setItem('first_name', res.data.fName)
       localStorage.setItem('last_name', res.data.lName)
+      localStorage.setItem('email', res.data.email)
+      localStorage.setItem('username', res.data.username)
+
 
       console.log(res)
       window.location.href = '#/addressbook';

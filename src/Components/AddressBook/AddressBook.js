@@ -40,6 +40,8 @@ class AddressBook extends React.Component {
             token: localStorage.getItem('token'),
             fName: localStorage.getItem('first_name'),
             lName: localStorage.getItem('last_name'),
+            userEmail: localStorage.getItem('email'),
+            userUsername: localStorage.getItem('username')
         }
     }
 
@@ -54,8 +56,23 @@ class AddressBook extends React.Component {
                
             })    
         )
-        console.log(logged_userID)
+        // console.log(logged_userID)
     }
+
+    // componentDidUpdate(prevState) {
+    //    if(prevState.contactList != this.state.contactList) {
+    //         const decoded = jwtDecode(this.state.token);
+    //         const logged_userID = decoded.userId;
+
+    //         axios.get(`http://localhost:3001/api/contacts/list?id=${logged_userID}`)
+    //         .then(res => 
+    //             this.setState({
+    //                 contactList: res.data
+                
+    //             })    
+    //         )
+    //    }
+    // }
 
 
     handleAdd = (e) => {
@@ -145,7 +162,7 @@ class AddressBook extends React.Component {
             <React.Fragment>
             <Header/>
             <Grid container spacing={5} style={{padding: '50px'}}>
-                <GroupArea fName = {this.state.fName} lName = {this.state.lName}/>
+                <GroupArea fName = {this.state.fName} lName = {this.state.lName} email = {this.state.userEmail} username = {this.state.userUsername} />
                 <ContactArea 
                 contactList = {this.state.contactList}
                 handleAdd = {this.handleAdd}
