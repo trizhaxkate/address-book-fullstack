@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,7 +45,8 @@ const useStyles = makeStyles(theme => ({
 export default function DeleteDialog({
     contactData,
     handleDeleteClose,
-    deleteOpen}) {
+    deleteOpen,
+    getContactList}) {
 
     const classes = useStyles();
     
@@ -72,11 +74,16 @@ export default function DeleteDialog({
                 <Button color="primary" onClick={()=>{
                     axios({
                         method: 'delete',
-                        url: `http://localhost:3001/api/delete?cid=${contactData.id}`,
-                    }).then(function(response){
-                        window.location.reload();
+                        url: `http://localhost:3001/api/delete?cid=${contactData.contact_id}`,
+                    }).then(function(res){
+                        handleDeleteClose();
+                        getContactList();
+                        toast.success("Contact successfully deleted.", {
+                          position: toast.POSITION.BOTTOM_LEFT
+                        })
+
+                        console.log(contactData.contact_id)
                     })
-                    console.log(`http://localhost:3001/api/delete?cid=${contactData.id}`)
                 }}>
                     Delete
                 </Button>

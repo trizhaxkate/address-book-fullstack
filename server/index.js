@@ -19,9 +19,13 @@ massive({
   app.post('/api/login', users.login);
   app.post('/api/register', users.register);
   app.post('/api/contacts/:user', users.createContact);
-  app.get('/api/contacts/list', users.contactList)
+  // app.get('/api/contacts/list', users.contactList);
+  app.get('/api/contacts/:userId' , users.contactList);
   app.delete('/api/delete', users.deleteContact);
   app.patch('/api/edit', users.editContact);
+  app.get('/api/contact/lastname', users.sortLastName);
+  app.get('/api/contact/firstname', users.sortFirstName);
+
 
   const PORT = 3001;
   app.listen(PORT, () => {

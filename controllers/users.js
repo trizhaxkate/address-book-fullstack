@@ -112,22 +112,47 @@ function register(req, res) {
     })
   }
 
-  function contactList(req, res){
-    const db = req.app.get('db');
-    const userID = req.query.id;
-    // console.log(req.query.id)
-    db
-    .query(
-      'Select contact.* from users, contact, address_book WHERE users.id = address_book.user_id AND contact.id = address_book.contact_id AND users.id = ${id} ORDER BY contact.first_name',
-      {
-        id:req.query.id
-      }
-    )
-    .then(data=>{
-      res.status(200).json(data)
-    })
-  }
+  // function contactList(req, res){
+  //   const db = req.app.get('db');
+  //   const userID = req.query.id;
+  //   // console.log(req.query.id)
+  //   db
+  //   .query(
+  //     `Select contact.* from users, contact, address_book WHERE users.id = address_book.user_id AND contact.id = address_book.contact_id AND users.id = ${id} ORDER BY contact.last_name`,
+  //     {
+  //       id:req.query.id
+  //     }
+  //   )
+  //   .then(data=>{
+  //     res.status(200).json(data)
+  //   })
+  // }
 
+
+  function contactList (req , res){
+    const db = req.app.get('db');
+    const {userId} = req.params;
+    const {sort} = req.query;
+    // console.log(req.params)
+
+    
+    db.query(`SELECT * FROM contact, address_book WHERE contact.id = address_book.contact_id AND address_book.user_id=${userId} ORDER BY last_name ${sort}`,[] )
+        .then(data => {
+            res.status(200).json(data)
+         
+        })
+        .catch(err => {
+            
+            res.status(500).end();
+        })
+        // .find({userId})
+        // .then(addressbook => {
+    
+        //     res.status(200).json(addressbook)
+        //     console.log(addressbook);
+        // })
+       
+  }
 
   function deleteContact(req,res){
     const db = req.app.get('db');
@@ -199,11 +224,44 @@ function register(req, res) {
     })
   }
 
+  function sortLastName(req, res) {
+    const db = req.app.get('db');
+    const userID = req.query.id;
+    // console.log(req.query.id)
+    db
+    .query(
+      `Select contact.* from users, contact, address_book WHERE users.id = address_book.user_id AND contact.id = address_book.contact_id AND users.id = ${userID} ORDER BY contact.last_name DESC`,
+      {
+        id:req.query.id
+      }
+    )
+    .then(data=>{
+      res.status(200).json(data)
+    })
+  }
+
+  function sortFirstName(req, res) {
+    const db = req.app.get('db');
+    const userID = req.query.id;
+    // console.log(req.query.id)
+    db
+    .query(
+      `Select contact.* from users, contact, address_book WHERE users.id = address_book.user_id AND contact.id = address_book.contact_id AND users.id = ${userID} ORDER BY contact.first_name 
+      ${req.query.sort}`
+      
+    )
+    .then(data=>{
+      res.status(200).json(data)
+    })
+  }
+
 module.exports = {
   register,
   login,
   createContact,
   contactList,
   deleteContact,
-  editContact
+  editContact,
+  sortLastName,
+  sortFirstName
 };

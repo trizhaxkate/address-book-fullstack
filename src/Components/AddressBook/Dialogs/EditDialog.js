@@ -10,6 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios'
 import Divider from '@material-ui/core/Divider';
 import jwtDecode from 'jwt-decode'
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles(theme => ({
     buttons: {
@@ -30,8 +31,9 @@ const useStyles = makeStyles(theme => ({
 export default function EditDialog({
     handleEditClose,
     editOpen,
-    editData
-}) {
+    editData,
+    getContactList
+    }) {
     const classes = useStyles();
 
     var editContact = {
@@ -206,11 +208,15 @@ export default function EditDialog({
                     onClick={()=>{
                         axios({
                             method: 'patch',
-                            url: ` http://localhost:3001/api/edit?cid=${editData.id}`,
+                            url: ` http://localhost:3001/api/edit?cid=${editData.contact_id}`,
                             json: true,
                             data: editContact
                         }).then(function(response){
-                            window.location.reload();
+                            handleEditClose();
+                            getContactList();
+                            toast.success("Contact successfully updated.", {
+                                position: toast.POSITION.BOTTOM_LEFT
+                            })
                         })
                     }}
                     variant="contained" 

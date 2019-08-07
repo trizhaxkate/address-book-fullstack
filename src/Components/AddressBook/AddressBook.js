@@ -5,7 +5,11 @@ import GroupArea from './GroupArea'
 import ContactArea from './ContactArea'
 import Grid from '@material-ui/core/Grid'
 import jwtDecode from 'jwt-decode'
-  
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import Axios from 'axios';
 
 if (localStorage.getItem('token') === null || localStorage.getItem('token').length === 0) {
     window.location.href = '#/'
@@ -41,38 +45,43 @@ class AddressBook extends React.Component {
             fName: localStorage.getItem('first_name'),
             lName: localStorage.getItem('last_name'),
             userEmail: localStorage.getItem('email'),
-            userUsername: localStorage.getItem('username')
+            userUsername: localStorage.getItem('username'),
+            sortLastName: true,
         }
     }
 
     componentDidMount() {
-        const decoded = jwtDecode(this.state.token);
-        const logged_userID = decoded.userId;
-
-        axios.get(`http://localhost:3001/api/contacts/list?id=${logged_userID}`)
-        .then(res => 
-            this.setState({
-                contactList: res.data
-               
-            })    
-        )
-        // console.log(logged_userID)
+        this.getContactList();
     }
 
-    // componentDidUpdate(prevState) {
-    //    if(prevState.contactList != this.state.contactList) {
-    //         const decoded = jwtDecode(this.state.token);
-    //         const logged_userID = decoded.userId;
+    getContactList = () => {
+        const decoded = jwtDecode(this.state.token);
+        const logged_userID = decoded.userId;
+        // if(!this.state.sortLastName) {
+            // axios.get(`http://localhost:3001/api/contacts/list?id=${logged_userID}`)
+            // .then(res => 
+            //     this.setState({
+            //         contactList: res.data
+            //     })    
+            // )
+        axios.get(`http://localhost:3001/api/contacts/${logged_userID}?sort=${this.state.sortLastName? 'ASC':'DESC'}`)
+            .then(res => {
+                this.setState({
+                    contactList: res.data
+                })
+        })
+    }
 
-    //         axios.get(`http://localhost:3001/api/contacts/list?id=${logged_userID}`)
-    //         .then(res => 
-    //             this.setState({
-    //                 contactList: res.data
-                
-    //             })    
-    //         )
-    //    }
-    // }
+    handleSortLname = () => {
+        this.setState({
+            sortLastName: !this.state.sortLastName,
+        }, () => {
+            return this.getContactList()
+        })
+
+        // console.log(this.state.sortLastName)
+    }
+
 
 
     handleAdd = (e) => {
@@ -94,7 +103,11 @@ class AddressBook extends React.Component {
                 data: this.state,
             })
         .then(res => {
-            window.location.reload();
+            // window.location.reload();
+            this.getContactList();
+            toast.success("Success! You've added a new contact.", {
+                position: toast.POSITION.BOTTOM_LEFT
+            })
         })
 
         this.setState({
@@ -131,15 +144,15 @@ class AddressBook extends React.Component {
     }
 
     
-    handleDeleteContact = () => {
-        axios({
-            method: 'delete',
-            url: `  http://localhost:3001/api/delete?cid=${this.state.rowID}`,
-        })
-        .then(res => {
-            window.location.reload();
-        })
-    }
+    // handleDeleteContact = () => {
+    //     axios({
+    //         method: 'delete',
+    //         url: `  http://localhost:3001/api/delete?cid=${this.state.rowID}`,
+    //     })
+    //     .then(res => {
+    //         window.location.reload();
+    //     })
+    // }
 
     handleEditOpen = (e) => {
         // var id = e.target.id;
@@ -177,7 +190,10 @@ class AddressBook extends React.Component {
                 handleEditOpen = {this.handleEditOpen}
                 handleEditClose = {this.handleEditClose}
                 editOpen = {this.state.editOpen}
+                getContactList = {this.getContactList}
+                handleSortLname = {this.handleSortLname}
                 />
+                <ToastContainer hideProgressBar/>
             </Grid>
             </React.Fragment>
         )

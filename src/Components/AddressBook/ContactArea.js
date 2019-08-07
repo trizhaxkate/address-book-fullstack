@@ -24,12 +24,15 @@ import jwtDecode from 'jwt-decode'
 import EditDialog from './Dialogs/EditDialog'
 import DeleteDialog from './Dialogs/DeleteDialog'
 import AddDialog from './Dialogs/AddDialog'
+import IconButton from '@material-ui/core/IconButton';
 
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
     overflowX: 'auto',
+    width: '100%',
+    overflowY: 'auto',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -53,6 +56,14 @@ const useStyles = makeStyles(theme => ({
     background: 'rgb(131,58,180)',
     background: 'linear-gradient(90deg, rgba(131,58,180,0.68531162464986) 0%, rgba(253,29,29,0.6376925770308124) 50%, rgba(252,176,69,0.8421743697478992) 100%)',
     color: 'white',
+  },
+  table: {
+      width: '100%'
+  },
+  tableHover: {
+    '&:hover': {
+        background: '#ebebeb'
+   },  
   }
 }));
 
@@ -69,7 +80,6 @@ export default function ContactArea(props) {
   
 
     var decoded = jwtDecode(token);
-    console.log(decoded)
     const logged_userID = decoded.userId;
     
     
@@ -77,6 +87,7 @@ export default function ContactArea(props) {
     const [contactData, setContactData] = useState({});   
     const [editData, setEditData] = useState({});
     const [openDel, setOpenDelete] = useState(false);
+    const [sortLname, setSortLast] = useState(false);
 
     return (
         <React.Fragment>
@@ -98,25 +109,36 @@ export default function ContactArea(props) {
                     </span>
                 </div>
 
+                {/* <Divider variant="middle" style={{marginTop: '15px', marginBottom: '0'}}/> */}
 
                 <Table className={classes.table}>
                     <TableHead> 
                     <TableRow>
-                        <TableCell>FIRST NAME</TableCell>
-                        <TableCell align="right">LAST NAME</TableCell>
-                        <TableCell align="right">MOBILE NUMBER</TableCell>
-                        <TableCell align="right">ACTION </TableCell>
+                        <TableCell width="25%" align="center">
+                            <IconButton onClick={props.handleSortLname}>
+                                <Icon style={{verticalAlign: 'middle'}}>import_export</Icon>
+                            </IconButton>
+                            LAST NAME
+                        </TableCell>
+                        <TableCell align="center">
+                            {/* <IconButton>
+                                <Icon style={{verticalAlign: 'middle'}}>import_export</Icon>
+                            </IconButton> */}
+                            FIRST NAME
+                        </TableCell>
+                        <TableCell align="center" width="25%">MOBILE NUMBER</TableCell>
+                        <TableCell align="center" width="25%">ACTION </TableCell>
                     </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody >
                     {props.contactList.map(row => (
-                        <TableRow key={row.id}>
-                        <TableCell component="th" scope="row">
+                        <TableRow  className={classes.tableHover} key={row.id}>
+                        <TableCell align="center">{row.last_name}</TableCell>
+                        <TableCell align="center"> 
                             {row.first_name}
                         </TableCell>
-                        <TableCell align="right">{row.last_name}</TableCell>
-                        <TableCell align="right">{row.mobile_phone}</TableCell>
-                        <TableCell align="right">
+                        <TableCell align="center">{row.mobile_phone}</TableCell>
+                        <TableCell align="center" style={{display: 'flex', justifyContent: 'center'}}>
                             <Fab 
                             onClick={() => {
                                 props.handleEditOpen(true);
@@ -128,6 +150,7 @@ export default function ContactArea(props) {
                             className={classes.margin}>
                                 <Icon>edit</Icon>
                             </Fab>
+
                             <Fab 
                             size="small" 
                             style={{backgroundColor: 'rgba(253,29,29,0.6376925770308124)', color: 'white', marginRight: '10px'}}  
@@ -140,7 +163,7 @@ export default function ContactArea(props) {
                                 <Icon>delete</Icon>
                             </Fab>
 
-                            <Fab size="small" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)', color: 'white'}} aria-label="add" className={classes.margin}>
+                            <Fab size="small" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)', color: 'white',}} aria-label="add" className={classes.margin}>
                             <Icon>group_add</Icon>
                             </Fab>
                         </TableCell>
@@ -164,7 +187,8 @@ export default function ContactArea(props) {
                 handleDeleteClose = {props.handleDeleteClose}
                 handleDeleteOpen = {props.handleDeleteOpen}
                 handleDeleteContact = {props.handleDeleteContact}
-                deleteOpen = {props.deleteOpen} />
+                deleteOpen = {props.deleteOpen}
+                getContactList = {props.getContactList} />
                 
 
             
@@ -172,7 +196,8 @@ export default function ContactArea(props) {
                 handleEditOpen = {props.handleEditOpen}
                 handleEditClose = {props.handleEditClose}
                 editOpen = {props.editOpen}
-                editData = {editData} />   
+                editData = {editData}
+                getContactList = {props.getContactList} />   
         </Grid>
         </React.Fragment>     
         
