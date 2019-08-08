@@ -1,6 +1,7 @@
 const express = require('express');
 const massive = require('massive');
 const users = require('../controllers/users')
+const groups = require('../controllers/groups')
 const cors = require('cors');
 
 massive({
@@ -26,6 +27,9 @@ massive({
   app.get('/api/contact/lastname', users.sortLastName);
   app.get('/api/contact/firstname', users.sortFirstName);
 
+  app.post('/api/addGroup',groups.createGroups);
+  app.get('/api/groups',groups.fetchGroups);
+  app.delete('/api/deleteGroup', groups.deleteGroup);
 
   const PORT = 3001;
   app.listen(PORT, () => {

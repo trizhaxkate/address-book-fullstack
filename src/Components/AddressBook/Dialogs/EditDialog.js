@@ -51,12 +51,12 @@ export default function EditDialog({
     
    
     return(
-        <Dialog open={editOpen} onClose={handleEditClose} aria-labelledby="form-dialog-title" className={classes.dialog}>
+        <Dialog open={editOpen} onClose={handleEditClose} aria-labelledby="form-dialog-title" className={classes.dialog} maxWidth="md" fullWidth>
                 <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
                     VIEW CONTACT
                 </DialogTitle>
 
-                <DialogContent>
+                <DialogContent style={{overflow: 'hidden'}}>
                     {/* <DialogContentText>
                         
                     </DialogContentText> */}

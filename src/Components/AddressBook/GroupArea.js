@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
@@ -18,6 +18,16 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import AddGroupDialog from './Dialogs/AddGroupDialog'
+import axios from 'axios'
+import jwtDecode from 'jwt-decode'
+import DeleteGroupDialog from './Dialogs/DeleteGroupDialog'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,6 +61,12 @@ const useStyles = makeStyles(theme => ({
     marginBottom: 30,
     textAlign: 'left'
   },
+  addGroup: {
+    '&:hover': {
+      background: '#fcb045',
+      color: 'white'
+ },  
+  }
 }));
 
 
@@ -59,7 +75,44 @@ const useStyles = makeStyles(theme => ({
 export default function GroupArea(props) {
   
   const classes = useStyles();
- 
+  const [open, setOpen] = React.useState(false);
+  const [openDel, setOpenDel] = React.useState(false);
+  const [groupList, setGroupList] = React.useState([]);
+  const [groupData, setGroupData] = React.useState({});   
+
+  if (localStorage.getItem('token') === null || localStorage.getItem('token').length === 0) {
+    window.location.href = '#/'
+  }
+
+
+  const token = localStorage.getItem('token');
+  const decoded = jwtDecode(token);
+  const logged_userID = decoded.userId;
+
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
+
+  function handleClickOpenDel() {
+    setOpenDel(true);
+  }
+
+  function handleCloseDel() {
+    setOpenDel(false);
+  }
+
+  useEffect(() => {
+    axios.get(`http://localhost:3001/api/groups?id=${logged_userID}`)
+    .then(res => {
+        setGroupList([...res.data])
+    })
+  },[groupList])
+
+  
 
   return (
         <Grid item xs={12} md={3}>
@@ -96,40 +149,47 @@ export default function GroupArea(props) {
             </Card>
 
             <Paper className={classes.root} style={{padding: '10px'}}>
-            <Typography style={{padding: '10px', letterSpacing: '5px'}}>
+            <Typography style={{padding: '10px', letterSpacing: '5px', cursor: 'pointer'}} className={classes.addGroup} onClick={handleClickOpen}>
                 GROUPS
+                <Icon style={{verticalAlign: 'middle', float: 'right '}}>add</Icon>
             </Typography>
             <Divider/>
                 <List component="nav" aria-label="main mailbox folders">
-                    <ListItem button>
-                    <ListItemAvatar>
-                        <Avatar style={{background: 'rgba(131,58,180,0.68531162464986) 0%'}}>
-                        <Icon>group_add</Icon>
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Sample Group 1" />
-                    <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete">
-                        <Icon>delete</Icon>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                    </ListItem>
-                    <Divider />
-                    <ListItem button>
-                    <ListItemAvatar>
-                        <Avatar style={{background: 'rgba(131,58,180,0.68531162464986) 0%'}}>
-                        <Icon>group_add</Icon>
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Sample Group 2" />
-                    <ListItemSecondaryAction>
-                        <IconButton edge="end" aria-label="delete">
-                        <Icon>delete</Icon>
-                        </IconButton>
-                    </ListItemSecondaryAction>
-                    </ListItem>
+                    {groupList.map(row => (
+                        <ListItem button>
+                            <ListItemAvatar>
+                                <Avatar style={{background: 'rgba(131,58,180,0.68531162464986) 0%'}}>
+                                <Icon>group_add</Icon>
+                                </Avatar>
+                            </ListItemAvatar>
+                            
+                            <ListItemText>{row.name}</ListItemText>
+                              <ListItemSecondaryAction 
+                                 onClick={() => {
+                                  handleClickOpenDel(false);
+                                  setGroupData(row);
+                              }}>
+                                  <IconButton edge="end" aria-label="delete">
+                                    <Icon>delete</Icon>
+                                  </IconButton>
+                              </ListItemSecondaryAction>
+                        </ListItem>
+                        // <Divider />
+                    ))}
                 </List>
             </Paper>
+
+            <AddGroupDialog 
+              open = {open}
+              handleClose = {handleClose}
+              />
+            
+            <DeleteGroupDialog
+             openDel = {openDel}
+             handleCloseDel = {handleCloseDel}
+             groupData = {groupData}/>
         </Grid>
+
+       
   );
 }

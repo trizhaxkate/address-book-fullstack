@@ -11,6 +11,7 @@ import axios from 'axios'
 import Divider from '@material-ui/core/Divider';
 import jwtDecode from 'jwt-decode'
 
+
 const useStyles = makeStyles(theme => ({
     buttons: {
         display: 'center',
@@ -39,12 +40,12 @@ export default function AddDialog({
     
    
     return(
-        <Dialog open={open} onClose={handleAddClose} aria-labelledby="form-dialog-title" className={classes.dialog}>
+        <Dialog open={open} onClose={handleAddClose} aria-labelledby="form-dialog-title" className={classes.dialog} maxWidth="md" fullWidth>
         <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
             ADD NEW CONTACT
         </DialogTitle>
 
-        <DialogContent>
+        <DialogContent style={{overflow: 'hidden'}}>
             {/* <DialogContentText>
                 
             </DialogContentText> */}
@@ -155,12 +156,15 @@ export default function AddDialog({
                 </Grid>
             </Grid>
         </DialogContent>
-
-        <DialogActions>
-            <Button onClick={handleAddClose} color="primary">
+        <Divider variant="middle" style={{marginTop: '15px', marginBottom: '15px'}}/>
+        <DialogActions className={classes.buttons}>
+            <Button onClick={handleAddClose} variant="contained" size="small" >
                 CANCEL
             </Button>
-            <Button onClick={handleAddContact} color="primary">
+            <Button onClick={handleAddContact} 
+            variant="contained" 
+            size="small" 
+            style={{background: "#4a4d63", color: 'white'}}>
                 ADD
             </Button>
         </DialogActions>
