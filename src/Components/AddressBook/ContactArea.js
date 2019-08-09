@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,6 +32,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItemText from '@material-ui/core/ListItemText';
+import ViewContact from './Dialogs/ViewContact'
+import AddContactToGroup from './Dialogs/AddContactToGroup'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -78,12 +80,10 @@ const useStyles = makeStyles(theme => ({
 export default function ContactArea(props) {
 
   
-    if (localStorage.getItem('token') === null || localStorage.getItem('token').length === 0) {
-        window.location.href = '#/'
-    }
 
     const token = localStorage.getItem('token')
-  
+    
+
 
     var decoded = jwtDecode(token);
     const logged_userID = decoded.userId;
@@ -96,6 +96,9 @@ export default function ContactArea(props) {
     const [sortLname, setSortLast] = useState(false);
     const [drawerView, setDrawerView] = useState(false);
     const [viewData, setViewData] = useState({});   
+    const [acOpen, setACopen] = useState(false);
+    const [groupList, setGroupList] = React.useState([]);
+    const [availGroups, setAvailGroups] = React.useState([]);
 
     const contactFiltered = props.contactList.filter((data)=>{
         let word = props.search.toLowerCase()
@@ -116,6 +119,23 @@ export default function ContactArea(props) {
       function handleClose() {
         setDrawerView(false);
       }
+
+
+      function handleACOpen() {
+        setACopen(true);
+      }
+
+      function handleACclose() {
+          setACopen(false);
+      }
+
+
+      useEffect(() => {
+        axios.get(`http://localhost:3001/api/groups?id=${logged_userID}`)
+        .then(res => {
+            setGroupList([...res.data])
+        })
+      },[groupList])
 
 
     return (
@@ -144,6 +164,9 @@ export default function ContactArea(props) {
                 <Table className={classes.table}>
                     <TableHead> 
                     <TableRow>
+                        {/* <TableCell align="center" width="5%">
+                           
+                        </TableCell> */}
                         <TableCell width="25%" align="center">
                             <IconButton onClick={props.handleSortLname}>
                                 <Icon style={{verticalAlign: 'middle'}}>import_export</Icon>
@@ -157,7 +180,8 @@ export default function ContactArea(props) {
                             FIRST NAME
                         </TableCell>
                         <TableCell align="center" width="25%">MOBILE NUMBER</TableCell>
-                        <TableCell align="center" width="25%">ACTION </TableCell>
+                        <TableCell align="center" width="15%">ACTION </TableCell>
+                        <TableCell align="center" width="5%"> </TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody >
@@ -167,6 +191,9 @@ export default function ContactArea(props) {
                             handleClickOpen();
                             setViewData(row);
                         }}>
+                        {/* <TableCell align="center" >
+                            <img style={{width: "3vh"}} src="https://image.flaticon.com/icons/svg/149/149072.svg"></img>
+                        </TableCell> */}
                         <TableCell align="center">{row.last_name}</TableCell>
                         <TableCell align="center"> 
                             {row.first_name}
@@ -178,7 +205,7 @@ export default function ContactArea(props) {
                                 e.stopPropagation();
                                 props.handleEditOpen(true);
                                 setEditData(row);
-                                // setDrawerView(false)
+                                console.log(availGroups)
                             }}
                             size="small" 
                             style={{backgroundColor: 'rgba(131,58,180,0.68531162464986)', color: 'white', marginRight: '10px'}} 
@@ -203,9 +230,19 @@ export default function ContactArea(props) {
                             <Fab size="small" style={{backgroundColor: 'rgba(252,176,69,0.8421743697478992)', color: 'white',}} aria-label="add" className={classes.margin}
                              onClick={(e) => {
                                 e.stopPropagation();
+                                axios.get(`http://localhost:3001/api/selectGroups?id=${row.contact_id}&user_id=${logged_userID}`)
+                                .then(res => {
+                                    setAvailGroups([...res.data])
+                                })
+                                .then(() => {
+                                    handleACOpen()
+                                })
                             }}>
                             <Icon>group_add</Icon>
                             </Fab>
+                        </TableCell>
+                        <TableCell align="center">
+                            <Icon style={{color: 'gray', fontSize: '18px'}}>play_arrow</Icon>
                         </TableCell>
                         </TableRow>
                     ))}
@@ -214,104 +251,16 @@ export default function ContactArea(props) {
             </Paper>
             
 
-            <Drawer anchor="bottom" open={drawerView} onClose={handleClose}>
-                <Container fullwidth maxWidth="md"style={{marginTop: '50px', marginBottom: '50px'}} >
-                    <Grid container spacing={12}>
-                        <Grid xs={12} lg={3}>
-                            <center><img width="90%" src="https://image.flaticon.com/icons/svg/149/149072.svg"></img></center>
-                        </Grid>
-                        <Grid xs={12} lg={1}>
-                        
-                        </Grid>
-                        <Grid container item xs={12} lg={8}>
-                           <Grid item xs={12} lg={12}>
-                            <Typography variant="h4">
-                                {viewData.first_name} {viewData.last_name}
-                            </Typography>
-                           </Grid>  
-                           <Grid item xs={12} lg={12}>
-                                <Divider  style={{marginTop: '15px', marginBottom: '0'}}/>
-                           </Grid>  
+            <AddContactToGroup
+                groupView = {availGroups}
+                handleClickOpen = {handleACOpen}
+                handleClose = {handleACclose}
+                acOpen = {acOpen} />
 
-                           <Grid container item xs={12} lg={12}>
-                            <Grid item xs={12} lg={6}>
-                                    <List className={classes.root}>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                            <Avatar>
-                                            <Icon>email</Icon>
-                                            </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText secondary="Email Address">{viewData.email}</ListItemText>
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                            <Avatar>
-                                            <Icon>phone</Icon>
-                                            </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText secondary="Mobile Phone">{viewData.mobile_phone}</ListItemText>
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                            <Avatar>
-                                            <Icon>home</Icon>
-                                            </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText secondary="Home Phone">{viewData.home_phone}</ListItemText>
-                                        </ListItem>
-                                        <ListItem>
-                                            <ListItemAvatar>
-                                            <Avatar>
-                                            <Icon>work</Icon>
-                                            </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText secondary="Work Phone">{viewData.work_phone}</ListItemText>
-                                        </ListItem>
-                                    </List> 
-                            </Grid>
-
-                            <Grid item xs={12} lg={6}>
-                                    <List className={classes.root}>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                        <Avatar>
-                                        <Icon>location_city</Icon>
-                                        </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText secondary="City" >{viewData.city}</ListItemText>
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                        <Avatar>
-                                        <Icon>location_on</Icon>
-                                        </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText secondary="State/Province/Region">{viewData.state_or_province}</ListItemText>
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemAvatar>
-                                        <Avatar>
-                                        <Icon>contact_mail</Icon>
-                                        </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText secondary="Postal Code">{viewData.postal_code}</ListItemText>
-                                    </ListItem>
-                                    <ListItem>
-                                            <ListItemAvatar>
-                                            <Avatar>
-                                            <Icon>flag</Icon>
-                                            </Avatar>
-                                            </ListItemAvatar>
-                                            <ListItemText secondary="Country" > {viewData.country}</ListItemText>
-                                        </ListItem>
-                                    </List> 
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Container>
-            </Drawer>
+            <ViewContact 
+                handleClose = {handleClose}
+                viewData = {viewData}
+                drawerView = {drawerView} />
 
             <AddDialog 
                 handleAdd = {props.handleAdd}

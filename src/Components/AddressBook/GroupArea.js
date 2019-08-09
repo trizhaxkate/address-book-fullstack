@@ -28,6 +28,7 @@ import AddGroupDialog from './Dialogs/AddGroupDialog'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import DeleteGroupDialog from './Dialogs/DeleteGroupDialog'
+import ViewGroups from './Dialogs/ViewGroups';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,7 +64,8 @@ const useStyles = makeStyles(theme => ({
   },
   addGroup: {
     '&:hover': {
-      background: '#fcb045',
+      background: 'rgb(131,58,180)',
+      background: 'linear-gradient(90deg, rgba(131,58,180,0.68531162464986) 0%, rgba(253,29,29,0.6376925770308124) 50%, rgba(252,176,69,0.8421743697478992) 100%)',
       color: 'white'
  },  
   }
@@ -79,12 +81,9 @@ export default function GroupArea(props) {
   const [openDel, setOpenDel] = React.useState(false);
   const [groupList, setGroupList] = React.useState([]);
   const [groupData, setGroupData] = React.useState({});   
-
-  if (localStorage.getItem('token') === null || localStorage.getItem('token').length === 0) {
-    window.location.href = '#/'
-  }
-
-
+  const [view, setView] = React.useState(false);
+  const [groupView, setGroupView] = React.useState([]);
+  const [grpName, setGrpName] = React.useState('');
   const token = localStorage.getItem('token');
   const decoded = jwtDecode(token);
   const logged_userID = decoded.userId;
@@ -103,6 +102,12 @@ export default function GroupArea(props) {
 
   function handleCloseDel() {
     setOpenDel(false);
+  }
+
+  
+
+  function handleCloseView() {
+    setView(false);
   }
 
   useEffect(() => {
@@ -156,7 +161,19 @@ export default function GroupArea(props) {
             <Divider/>
                 <List component="nav" aria-label="main mailbox folders">
                     {groupList.map(row => (
-                        <ListItem button>
+                        <ListItem button
+                        onClick={() => {
+                            axios.get(`http://localhost:3001/api/groupMembers?id=${row.id}`)
+                            .then(res => {
+                                setGroupView([...res.data]);
+                              
+                            })
+                            .then(()=>{
+                              setView(true);
+                              setGrpName(row.name)
+                            })
+                        }}
+                        >
                             <ListItemAvatar>
                                 <Avatar style={{background: 'rgba(131,58,180,0.68531162464986) 0%'}}>
                                 <Icon>group_add</Icon>
@@ -168,6 +185,7 @@ export default function GroupArea(props) {
                                  onClick={() => {
                                   handleClickOpenDel(false);
                                   setGroupData(row);
+                                  console.log(groupView)
                               }}>
                                   <IconButton edge="end" aria-label="delete">
                                     <Icon>delete</Icon>
@@ -179,9 +197,17 @@ export default function GroupArea(props) {
                 </List>
             </Paper>
 
+            <ViewGroups 
+            open = {view}
+            groupView = {groupView}
+            handleClose = {handleCloseView}
+            grpName = {grpName}
+            />
+
             <AddGroupDialog 
               open = {open}
               handleClose = {handleClose}
+              
               />
             
             <DeleteGroupDialog

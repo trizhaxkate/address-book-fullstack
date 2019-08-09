@@ -11,13 +11,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import Axios from 'axios';
 import Container from '@material-ui/core/Container';
-
-if (localStorage.getItem('token') === null || localStorage.getItem('token').length === 0) {
-    window.location.href = '#/'
-}
-
+import {Link} from 'react-router-dom'
 
 const token = localStorage.getItem('token');
+
+
+if(token === "" || token === null){
+    window.location.href="/#/"
+}
+
 // var decoded = jwtDecode(token);
 // const logged_userID = decoded.userId;
 // console.log(decoded)
@@ -189,7 +191,7 @@ class AddressBook extends React.Component {
             search: searched
         })
 
-        console.log(this.state.search)
+        // console.log(this.state.search)
     }
 
     render() {

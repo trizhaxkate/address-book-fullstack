@@ -54,12 +54,13 @@ export default function AddGroupDialog({
 
     const [groupName, setGroupName] = useState('');
     
-    if (localStorage.getItem('token') === null || localStorage.getItem('token').length === 0) {
-      window.location.href = '#/'
-    }
-  
-  
     const token = localStorage.getItem('token');
+    // if(token === "" || token === null){
+    //   window.location.href='/';
+    // }
+  
+  
+    
     const decoded = jwtDecode(token);
     const logged_userID = decoded.userId;
     

@@ -43,7 +43,7 @@ export default function Header() {
           <IconButton className={classes.button} 
           onClick={()=>{
             localStorage.clear();
-            window.location.href= "/#/";
+            window.location.href= "/";
             
           }}>
               <Icon style={{float: 'right', color: 'white'}} fontSize="large">exit_to_app</Icon>

@@ -101,7 +101,6 @@ class SignUp extends React.Component {
     .then(res => {
       window.location.href = '#/';
     })  
-    // console.log('dsadasd')
 
   }
 

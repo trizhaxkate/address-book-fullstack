@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -44,7 +44,14 @@ const useStyles = makeStyles(theme => ({
 export default function SignInFrom(props) {
   const classes = useStyles();
 
-
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if(token){
+      window.location.href = '#/addressbook'
+    }else{
+      window.location.href = '#/'
+    }
+  }, [])
 
   return (
     <Container component="main" maxWidth="xs" style={{display: 'flex', alignItems: 'center'}}>

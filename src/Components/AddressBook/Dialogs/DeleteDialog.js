@@ -49,8 +49,6 @@ export default function DeleteDialog({
     getContactList}) {
 
     const classes = useStyles();
-    
-    console.log(contactData)
 
 
     return(
@@ -82,7 +80,6 @@ export default function DeleteDialog({
                           position: toast.POSITION.BOTTOM_LEFT
                         })
 
-                        console.log(contactData.contact_id)
                     })
                 }}>
                     Delete
